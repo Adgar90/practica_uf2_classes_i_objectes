@@ -1,3 +1,57 @@
+// classe Cicle
+
+class Cicle {
+
+    constructor(nom, categoria, numAlumnes, abreviatura) {
+        this.nom = nom;
+        this.categoria = categoria;
+        this.numAlumnes = numAlumnes;
+        this.abreviatura = abreviatura;
+        this.numEdicions = 0;
+        this.dataEdicio = new Date();
+        this.moduls = [];
+    }
+
+    setNumEdicions() {
+        this.numEdicions++;
+        this.dataEdicio = new Date();
+    }
+
+    toString() {
+        let text = `
+        Nom Cicle: ${this.nom}
+        Categoria: ${this.categoria}
+        Numero d'alumnes: ${this.numAlumnes}
+        Abreviatura: ${this.abreviatura}
+        Moduls:`;
+        this.moduls.forEach(modul => {
+            text += `
+            - ${modul.toString()}`;
+        })
+        return text;
+    }
+
+
+    insertModul(modul) {
+        this.moduls.push(modul);
+    }
+}
+
+// classe Modul
+
+class Modul {
+    constructor(cicle, nom, num, hores) {
+        this.cicle = cicle;
+        this.nom = nom;
+        this.num = num;
+        this.hores = hores;
+    }
+
+    toString() {
+        return `MP${this.num}. ${this.nom} (${this.hores}h)`;
+    }
+}
+
 let llistatCicles = [];
 
 function afegirCicle(){
@@ -5,7 +59,7 @@ function afegirCicle(){
     let categoria = document.getElementById("cicle_categoria").value;
     let numAlumnes = document.getElementById("cicle_alumnes").value;
     let abreviatura = document.getElementById("cicle_abr").value;
-
+    let cic = new Cicle(nom, categoria, numAlumnes, abreviatura);
     let cicle = {nom: nom, categoria: categoria, numAlumnes: numAlumnes, abreviatura: abreviatura}
     console.log(cicle);
 
@@ -34,7 +88,7 @@ function afegirModul(){
     let modul_nom = document.getElementById("modul_nom").value;
     let modul_num = document.getElementById("modul_num").value;
     let modul_hores = document.getElementById("modul_hores").value;
-
+    let mod = new Modul(cicle, modul_nom, modul_num, modul_hores);
     let modul = {cicle: cicle, nom: modul_nom, num: modul_num, hores: modul_hores}
     console.log(modul);
 
@@ -79,7 +133,8 @@ function actualitzarSelector(){
 
 //Funció per eliminar un cicle
 function removeCicle(i){
-
+    llistatCicles.splice(i, 1);
+    printLlistat(llistatCicles);
 }
 
 //Funció per editar un cicle
@@ -103,4 +158,13 @@ function netejarFormularis(){
     for (let i=0; i < selects.length; i++) {
         selects[i].value = 0;
     }
+}
+
+//Funció per calcular les hores totals del cicle
+function calculHores(i) {
+    let cicle = new Cicle(llistatCicles[i].nom, llistatCicles[i].categoria, llistatCicles[i].numAlumnes, llistatCicles[i].abreviatura);
+    let modul = new Modul (cicle, "BBDD", "2", "37");
+    cicle.insertModul(modul);
+    console.log(modul.toString());
+    console.log(cicle.toString());
 }
