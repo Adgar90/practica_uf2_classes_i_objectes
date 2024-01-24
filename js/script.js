@@ -31,7 +31,7 @@ class Cicle {
         return text;
     }
 
-
+    //Funció per insertar moduls al cicle
     insertModul(modul) {
         this.moduls.push(modul);
     }
@@ -59,8 +59,7 @@ function afegirCicle(){
     let categoria = document.getElementById("cicle_categoria").value;
     let numAlumnes = document.getElementById("cicle_alumnes").value;
     let abreviatura = document.getElementById("cicle_abr").value;
-    let cic = new Cicle(nom, categoria, numAlumnes, abreviatura);
-    let cicle = {nom: nom, categoria: categoria, numAlumnes: numAlumnes, abreviatura: abreviatura}
+    let cicle = new Cicle(nom, categoria, numAlumnes, abreviatura);
     console.log(cicle);
 
     if(document.getElementById("editCicle").value === "-1"){
@@ -68,7 +67,10 @@ function afegirCicle(){
         llistatCicles.push(cicle);
     }else{
         //Editar cicle
-
+        llistatCicles[document.getElementById("editCicle").value].nom = nom;
+        llistatCicles[document.getElementById("editCicle").value].categoria = categoria;
+        llistatCicles[document.getElementById("editCicle").value].numAlumnes = numAlumnes;
+        llistatCicles[document.getElementById("editCicle").value].abreviatura = abreviatura;
     }
     
     //Actualitzem el selector
@@ -88,10 +90,11 @@ function afegirModul(){
     let modul_nom = document.getElementById("modul_nom").value;
     let modul_num = document.getElementById("modul_num").value;
     let modul_hores = document.getElementById("modul_hores").value;
-    let mod = new Modul(cicle, modul_nom, modul_num, modul_hores);
-    let modul = {cicle: cicle, nom: modul_nom, num: modul_num, hores: modul_hores}
+    let modul = new Modul(cicle, modul_nom, modul_num, modul_hores);
     console.log(modul);
 
+    //Afegim el modul al cicle
+    llistatCicles[cicle].insertModul(modul);
     //Printem la llista
     printLlistat(llistatCicles);
 
@@ -143,7 +146,6 @@ function editCicle(i){
     document.getElementById("cicle_categoria").value = llistatCicles[i].categoria;
     document.getElementById("cicle_alumnes").value = llistatCicles[i].numAlumnes;
     document.getElementById("cicle_abr").value = llistatCicles[i].abreviatura;
-
     document.getElementById("editCicle").value=i;
 }
 
@@ -162,9 +164,5 @@ function netejarFormularis(){
 
 //Funció per calcular les hores totals del cicle
 function calculHores(i) {
-    let cicle = new Cicle(llistatCicles[i].nom, llistatCicles[i].categoria, llistatCicles[i].numAlumnes, llistatCicles[i].abreviatura);
-    let modul = new Modul (cicle, "BBDD", "2", "37");
-    cicle.insertModul(modul);
-    console.log(modul.toString());
-    console.log(cicle.toString());
+    console.log(llistatCicles[i].toString())
 }
