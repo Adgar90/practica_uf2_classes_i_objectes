@@ -136,7 +136,13 @@ function actualitzarSelector(){
 
 //Funció per eliminar un cicle
 function removeCicle(i){
+    //Eliminem el cicle del llista
     llistatCicles.splice(i, 1);
+
+    //Actualitzem el selector
+    actualitzarSelector();
+
+    //Printem la llista
     printLlistat(llistatCicles);
 }
 
